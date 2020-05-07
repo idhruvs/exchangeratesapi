@@ -101,13 +101,18 @@ async def force_naked_domain(request):
     if request.host.startswith("www."):
         return redirect(request.url.replace("www.", "", 1), status=301)
 
-
 @app.route("/latest", methods=["GET", "HEAD"])
 @app.route("/<date>", methods=["GET", "HEAD"])
 @app.route("/api/latest", methods=["GET", "HEAD"])
 @app.route("/api/<date>", methods=["GET", "HEAD"])
 @cors()
 async def exchange_rates(request, date=None):
+    if request.headers.get('x-access-token') == 'abcd':
+        return json(
+            {error: 'Invalid access token'},
+            status=401
+        )
+
     if request.method == "HEAD":
         return json("")
 
