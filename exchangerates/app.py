@@ -107,9 +107,9 @@ async def force_naked_domain(request):
 @app.route("/api/<date>", methods=["GET", "HEAD"])
 @cors()
 async def exchange_rates(request, date=None):
-    if request.headers.get("x-access-token") == "abcd":
+    if request.headers.get("x-access-token") != "abcd":
         return json(
-            {error: "Invalid access token"},
+            {"error": "Invalid access token"},
             status=401,
         )
 
