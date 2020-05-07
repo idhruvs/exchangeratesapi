@@ -15,6 +15,7 @@ from sanic.response import file, html, json, redirect
 
 from exchangerates.utils import Gino, cors, parse_database_url
 
+ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkRocnV2IFNoYWgiLCJpYXQiOjE1MTYyMzkwMjJ9.XDH-kuo3RSM2N952t9Cn9wL5AArO7IfwBUJxjuGj9ZU"
 HISTORIC_RATES_URL = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml"
 LAST_90_DAYS_RATES_URL = (
     "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml"
@@ -107,7 +108,7 @@ async def force_naked_domain(request):
 @app.route("/api/<date>", methods=["GET", "HEAD"])
 @cors()
 async def exchange_rates(request, date=None):
-    if request.headers.get("x-access-token") != "idhruvshah":
+    if request.headers.get("x-access-token") != ACCESS_TOKEN:
         return json(
             {"error": "Invalid access token"},
             status=401,
